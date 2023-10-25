@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/Colors/my_colors.dart';
+import 'package:gpa_calculator/Screens/letter_grade_screen.dart';
 import 'package:gpa_calculator/Widgets/inc_and_dec_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
+import 'package:gpa_calculator/constants/navigation.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
 
@@ -53,7 +55,9 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             InkWell(
-              onTap: () {},
+              onTap: () {
+                LetterGradeScreen().push(context);
+              },
               child: Container(
                 width: 50,
                 height: 50,
@@ -94,12 +98,19 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
             SizedBox(
               width: 150,
               child: TextField(
+                autofocus: true,
+
+                textDirection:
+                    TextDirection.rtl, // تعيين اتجاه النص من اليمين إلى اليسار
+                textAlign: TextAlign.right, // تعيين محاذاة النص إلى اليمين
                 decoration: InputDecoration(
-                  labelText: 'Enter Name',
-                  border: OutlineInputBorder(),
+                  labelText: 'ادخل الاسم', // نص باللغة العربية
+                  border: InputBorder.none, // لجعل الحقل بدون حواف
+                  filled: true, // لجعل الخلفية ملونة
+                  fillColor: MyColors.greyColor[300], // تعيين اللون الخلفي
                 ),
               ),
-            ),
+            )
           ],
         ),
       ),
