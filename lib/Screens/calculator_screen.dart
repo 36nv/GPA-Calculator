@@ -6,6 +6,8 @@ import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
 import 'package:gpa_calculator/main.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CalculatorScreens extends StatefulWidget {
   const CalculatorScreens({Key? key}) : super(key: key);
@@ -15,6 +17,8 @@ class CalculatorScreens extends StatefulWidget {
 }
 
 class _CalculatorScreensState extends State<CalculatorScreens> {
+  TextEditingController currentGpaController = TextEditingController();
+
   void increasePreviousHours() {
     setState(() {
       previousHours++;
@@ -63,14 +67,15 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: IconButton(
-                iconSize: 35.0,
-                onPressed: () {
-                  addCourse();
-                },
-                icon: Icon(
-                  Icons.add,
-                )),
-          )
+              iconSize: 35.0,
+              onPressed: () {
+                addCourse();
+              },
+              icon: Icon(
+                Icons.add,
+              ),
+            ),
+          ),
         ],
       ),
       backgroundColor: Color(0xFF62D9D0),
@@ -94,62 +99,110 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
               ),
               child: Padding(
                 padding: const EdgeInsets.only(top: 20),
-                child: ListView(
-                  children: List.generate(contCourse, (index) {
-                    return Column(
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: ListView(
+                        children: List.generate(contCourse, (index) {
+                          return Column(
+                            children: [
+                              CourseNameWidget(),
+                              kVSpace8,
+                            ],
+                          );
+                        }),
+                      ),
+                    ),
+                    Row(
                       children: [
-                        CourseNameWidget(),
-                        kVSpace8,
+                        InkWell(
+                          onTap: () {},
+                          child: Container(
+                            width: context.getWidth() / 2,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: MyColors.primaryColor,
+                            ),
+                            child: Center(
+                              child: MyText(
+                                textIn: "احسب",
+                                textSize: 25,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: context.getWidth() / 2,
+                          decoration: BoxDecoration(
+                            color: MyColors.secondaryColor,
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 50,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                      LengthLimitingTextInputFormatter(4),
+                                    ],
+                                    keyboardType: TextInputType.number,
+                                    decoration: InputDecoration(
+                                      labelText: ' الساعات السابقة',
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: TextField(
+                                    controller: currentGpaController,
+                                    keyboardType:
+                                        TextInputType.numberWithOptions(
+                                            decimal: true),
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.allow(
+                                          RegExp(r'^[0-5](\.\d{0,2})?')),
+                                    ],
+                                    decoration: InputDecoration(
+                                      labelText: 'المعدل الحالي',
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                    onChanged: (text) {
+                                      double value =
+                                          double.tryParse(text) ?? 0.0;
+                                      if (value > 5.00) {
+                                        currentGpaController.text = '5.00';
+                                      }
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ],
-                    );
-                  }),
+                    ),
+                  ],
                 ),
               ),
             ),
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Row(
-                children: [
-                  AddWidget(
-                    boxColor: MyColors.primaryColor,
-                    textColor: MyColors.secondaryColor,
-                    boxColorIncDec: MyColors.secondaryColor,
-                    request: 'الساعات السابقة',
-                    response: previousHours,
-                    onPressedIncrement: increasePreviousHours,
-                    onPressedDecrement: decreasePreviousHours,
-                  ),
-                  AddWidget(
-                    boxColor: MyColors.secondaryColor,
-                    textColor: MyColors.blackColor,
-                    boxColorIncDec: MyColors.primaryColor,
-                    request: 'المعدل الحالي',
-                    response: currentGPA,
-                    onPressedIncrement: increaseCurrentGPA,
-                    onPressedDecrement: decreaseCurrentGPA,
-                  ),
-                ],
-              ),
-            ],
-          ),
-          kVSpace8,
-          InkWell(
-            onTap: () {},
-            child: Container(
-              width: MediaQuery.of(context).size.width / 2,
-              height: 50,
-              child: Center(
-                child: MyText(
-                  textIn: "احسب",
-                ),
-              ),
-              decoration: BoxDecoration(
-                  color: MyColors.secondaryColor,
-                  borderRadius: BorderRadius.circular(50)),
-            ),
-          )
         ],
       ),
     );

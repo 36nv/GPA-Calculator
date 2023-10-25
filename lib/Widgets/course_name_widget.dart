@@ -4,6 +4,7 @@ import 'package:gpa_calculator/Widgets/inc_and_dec_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
+import 'package:flutter/material.dart';
 import 'package:gpa_calculator/main.dart';
 
 class CourseNameWidget extends StatefulWidget {

@@ -29,9 +29,8 @@ class AddWidget extends StatelessWidget {
     return Container(
       width: context.getWidth() / 2,
       height: context.getHeight() / 10,
-      decoration: BoxDecoration(
-        color: boxColor,
-      ),
+      decoration:
+          BoxDecoration(color: boxColor, borderRadius: BorderRadius.only()),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
