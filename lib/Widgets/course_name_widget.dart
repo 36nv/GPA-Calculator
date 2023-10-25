@@ -4,23 +4,24 @@ import 'package:gpa_calculator/Widgets/inc_and_dec_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
-import 'package:flutter/material.dart';
-import 'package:gpa_calculator/main.dart';
 
 class CourseNameWidget extends StatefulWidget {
-  const CourseNameWidget({
-    super.key,
-  });
+  final int initialContHoursCourse;
+
+  CourseNameWidget({Key? key, required this.initialContHoursCourse})
+      : super(key: key);
 
   @override
   _CourseNameWidgetState createState() => _CourseNameWidgetState();
 }
 
 class _CourseNameWidgetState extends State<CourseNameWidget> {
-  void incrementCounter() {
-    setState(() {
-      contHoursCourse++;
-    });
+  int contHoursCourse = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    contHoursCourse = widget.initialContHoursCourse;
   }
 
   void decrementCounter() {
@@ -28,6 +29,12 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
       if (contHoursCourse > 0) {
         contHoursCourse--;
       }
+    });
+  }
+
+  void incrementCounter() {
+    setState(() {
+      contHoursCourse++;
     });
   }
 

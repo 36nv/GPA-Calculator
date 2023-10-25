@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/Colors/my_colors.dart';
-import 'package:gpa_calculator/Widgets/add_widget.dart';
 import 'package:gpa_calculator/Widgets/course_name_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
-import 'package:gpa_calculator/main.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+int contCourse = 1;
 
 class CalculatorScreens extends StatefulWidget {
   const CalculatorScreens({Key? key}) : super(key: key);
@@ -19,41 +18,9 @@ class CalculatorScreens extends StatefulWidget {
 class _CalculatorScreensState extends State<CalculatorScreens> {
   TextEditingController currentGpaController = TextEditingController();
 
-  void increasePreviousHours() {
-    setState(() {
-      previousHours++;
-    });
-  }
-
   void addCourse() {
     setState(() {
       contCourse++;
-    });
-  }
-
-  void decreasePreviousHours() {
-    setState(() {
-      if (previousHours > 0) {
-        previousHours--;
-      }
-    });
-  }
-
-  void increaseCurrentGPA() {
-    setState(() {
-      if (currentGPA < 5.00) {
-        currentGPA = (currentGPA + 0.01).clamp(0.00, 5.00);
-        currentGPA = double.parse(currentGPA.toStringAsFixed(2));
-      }
-    });
-  }
-
-  void decreaseCurrentGPA() {
-    setState(() {
-      if (currentGPA > 0.00) {
-        currentGPA = (currentGPA - 0.01).clamp(0.00, 5.00);
-        currentGPA = double.parse(currentGPA.toStringAsFixed(2));
-      }
     });
   }
 
@@ -106,7 +73,7 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
                         children: List.generate(contCourse, (index) {
                           return Column(
                             children: [
-                              CourseNameWidget(),
+                              CourseNameWidget(initialContHoursCourse: 0),
                               kVSpace8,
                             ],
                           );

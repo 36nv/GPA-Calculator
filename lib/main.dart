@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/Screens/calculator_screen.dart';
 
-int previousHours = 0;
-double currentGPA = 0.00;
-int contCourse = 1;
-int contHoursCourse = 0;
-
 void main() {
   runApp(const MyApp());
 }
