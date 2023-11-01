@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/Colors/my_colors.dart';
+import 'package:gpa_calculator/Screens/gpa_screen.dart';
 import 'package:gpa_calculator/Widgets/course_name_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
+import 'package:gpa_calculator/constants/navigation.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
 import 'package:flutter/services.dart';
@@ -73,7 +75,9 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
                         children: List.generate(contCourse, (index) {
                           return Column(
                             children: [
-                              CourseNameWidget(initialContHoursCourse: 0),
+                              CourseNameWidget(
+                                initialContHoursCourse: 0,
+                              ),
                               kVSpace8,
                             ],
                           );
@@ -83,7 +87,9 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
                     Row(
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            GPAScreen().push(context);
+                          },
                           child: Container(
                             width: context.getWidth() / 2,
                             height: 100,
