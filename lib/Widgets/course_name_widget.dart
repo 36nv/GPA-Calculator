@@ -34,6 +34,7 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
     setState(() {
       if (contHoursCourse > 0) {
         contHoursCourse--;
+        updateTotal(-1);
         calculateGPA();
       }
     });
@@ -42,13 +43,13 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
   void incrementCounter() {
     setState(() {
       contHoursCourse++;
+      updateTotal(1);
       calculateGPA();
     });
   }
 
   void calculateGPA() {
     double courseGPA = contHoursCourse * selectedGradePoints;
-    updateTotal(contHoursCourse);
     updateTotalgrade(courseGPA);
   }
 

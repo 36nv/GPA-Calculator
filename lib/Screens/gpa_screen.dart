@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gpa_calculator/Widgets/course_name_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
