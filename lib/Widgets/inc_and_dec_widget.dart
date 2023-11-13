@@ -6,18 +6,17 @@ class IncandDecWidget extends StatelessWidget {
     required this.boxColorIncDec,
     required this.boxColor,
     required this.boxIcon,
-    required this.onPressed, // Add the onPressed parameter
+    required this.onPressed,
   });
 
   final Color boxColorIncDec;
   final Color boxColor;
   final IconData boxIcon;
-  final VoidCallback onPressed; // Define the onPressed callback
-
+  final VoidCallback onPressed;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onPressed, // Call the onPressed callback when the widget is tapped
+      onTap: onPressed,
       child: Container(
         width: 30,
         height: 30,
