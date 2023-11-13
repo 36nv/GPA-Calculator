@@ -50,6 +50,7 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
 
   void calculateGPA() {
     double courseGPA = contHoursCourse * selectedGradePoints;
+    updateTotalgrade(courseGPA);
   }
 
   void updateTotal(
