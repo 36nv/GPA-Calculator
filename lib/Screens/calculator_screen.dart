@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/Colors/my_colors.dart';
+import 'package:gpa_calculator/Func/updateTotalgradeFunc.dart';
+import 'package:gpa_calculator/Model/course.dart';
 import 'package:gpa_calculator/Screens/gpa_screen.dart';
 import 'package:gpa_calculator/Widgets/course_name_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/navigation.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
+import 'package:gpa_calculator/data/global_data.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
 import 'package:flutter/services.dart';
-
-int contCourse = 1;
 
 class CalculatorScreens extends StatefulWidget {
   const CalculatorScreens({Key? key}) : super(key: key);
@@ -18,12 +19,12 @@ class CalculatorScreens extends StatefulWidget {
 }
 
 class _CalculatorScreensState extends State<CalculatorScreens> {
+  TextEditingController previousHoursController = TextEditingController();
   TextEditingController currentGpaController = TextEditingController();
 
-  void addCourse() {
-    setState(() {
-      contCourse++;
-    });
+  void newCourse() {
+    courseList.add(Course());
+    setState(() {});
   }
 
   @override
@@ -38,7 +39,8 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
             child: IconButton(
               iconSize: 35.0,
               onPressed: () {
-                addCourse();
+                newCourse();
+                print('List ${courseList.length}');
               },
               icon: Icon(
                 Icons.add,
@@ -71,24 +73,33 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
                 child: Column(
                   children: [
                     Expanded(
-                      child: ListView(
-                        children: List.generate(contCourse, (index) {
-                          return Column(
-                            children: [
-                              CourseNameWidget(
-                                initialContHoursCourse: 0,
-                              ),
-                              kVSpace8,
-                            ],
-                          );
-                        }),
-                      ),
+                      child: ListView(children: [
+                        ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: courseList.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                CourseNameWidget(
+                                  course: courseList[index],
+                                ),
+                                kVSpace12,
+                              ],
+                            );
+                          },
+                        )
+                      ]),
                     ),
                     Row(
                       children: [
                         InkWell(
                           onTap: () {
-                            GPAScreen().push(context);
+                            updateTotalgrade();
+                            GPAScreen(
+                              previousHours: previousHoursController.text,
+                              currentGPA: currentGpaController.text,
+                            ).push(context);
                           },
                           child: Container(
                             width: context.getWidth() / 2,
@@ -117,6 +128,7 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: TextField(
+                                    controller: previousHoursController,
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                       LengthLimitingTextInputFormatter(4),

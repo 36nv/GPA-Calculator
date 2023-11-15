@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
+import 'package:gpa_calculator/data/global_data.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
 
-int totalHours = 0;
-double totalGradePoints = 0.0;
-
 class GPAScreen extends StatelessWidget {
-  const GPAScreen({Key? key}) : super(key: key);
+  final String previousHours;
+  final String currentGPA;
+
+  GPAScreen({required this.previousHours, required this.currentGPA});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,9 @@ class GPAScreen extends StatelessWidget {
                 children: [
                   kHSpace32,
                   Text("مجموع الساعات: $totalHours"),
-                  Text("مجموع القريد: $totalGradePoints"),
+                  Text("مجموع القريد: $totalGrade"),
+                  Text("مجموع الساعات السابقه: $previousHours"),
+                  Text(" المعدل الحالي: $currentGPA"),
                 ],
               ),
             ),

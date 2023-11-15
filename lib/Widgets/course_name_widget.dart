@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:gpa_calculator/Colors/my_colors.dart';
-import 'package:gpa_calculator/Screens/gpa_screen.dart';
+import 'package:gpa_calculator/Model/course.dart';
+
 import 'package:gpa_calculator/Widgets/inc_and_dec_widget.dart';
 import 'package:gpa_calculator/Widgets/letter_gpa_widget.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
+import 'package:gpa_calculator/data/global_data.dart';
 import 'package:gpa_calculator/extensions/screen_size.dart';
 
-double selectedGradePoints = 5.0;
-
 class CourseNameWidget extends StatefulWidget {
-  final int initialContHoursCourse;
+  final Course course;
   CourseNameWidget({
     Key? key,
-    required this.initialContHoursCourse,
+    required this.course,
   }) : super(key: key);
 
   @override
@@ -22,35 +22,24 @@ class CourseNameWidget extends StatefulWidget {
 
 class _CourseNameWidgetState extends State<CourseNameWidget> {
   String selectedOption = "A+";
-  int contHoursCourse = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    contHoursCourse = widget.initialContHoursCourse;
-  }
+  // int contHoursCourse = 0;
 
   void decrementCounter() {
     setState(() {
-      if (contHoursCourse > 0) {
-        contHoursCourse--;
+      if (widget.course.contHoursCourse > 0) {
+        widget.course.contHoursCourse--;
         updateTotal(-1);
-        calculateGPA();
+
+        ;
       }
     });
   }
 
   void incrementCounter() {
     setState(() {
-      contHoursCourse++;
+      widget.course.contHoursCourse++;
       updateTotal(1);
-      calculateGPA();
     });
-  }
-
-  void calculateGPA() {
-    double courseGPA = contHoursCourse * selectedGradePoints;
-    updateTotalgrade(courseGPA);
   }
 
   void updateTotal(
@@ -58,12 +47,6 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
   ) {
     setState(() {
       totalHours += hours;
-    });
-  }
-
-  void updateTotalgrade(double selectedGradePoints) {
-    setState(() {
-      totalGradePoints += selectedGradePoints;
     });
   }
 
@@ -110,7 +93,7 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                 ),
                 kHSpace12,
                 MyText(
-                  textIn: contHoursCourse.toString(),
+                  textIn: widget.course.contHoursCourse.toString(),
                   textSize: 20,
                 ),
                 kHSpace12,
@@ -129,7 +112,7 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                 textDirection: TextDirection.rtl,
                 textAlign: TextAlign.right,
                 onChanged: (value) {
-                  calculateGPA();
+                  ;
                 },
                 decoration: InputDecoration(
                   labelText: 'ادخل الاسم',
@@ -167,8 +150,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "A+";
-                              selectedGradePoints = 5.0;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 5.0;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -179,8 +162,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "A";
-                              selectedGradePoints = 4.75;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 4.75;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -200,8 +183,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "B+";
-                              selectedGradePoints = 4.5;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 4.5;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -212,8 +195,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "B";
-                              selectedGradePoints = 4.0;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 4.0;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -233,8 +216,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "C+";
-                              selectedGradePoints = 3.5;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 3.5;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -245,8 +228,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "C";
-                              selectedGradePoints = 3;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 3;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -266,8 +249,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "D+";
-                              selectedGradePoints = 2.5;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 2.5;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -278,8 +261,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                           onTap: () {
                             setState(() {
                               selectedOption = "D";
-                              selectedGradePoints = 2.0;
-                              calculateGPA();
+                              widget.course.selectedGradePoints = 2.0;
+                              ;
                               Navigator.pop(context);
                             });
                           },
@@ -294,8 +277,8 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
                     onTap: () {
                       setState(() {
                         selectedOption = "F";
-                        selectedGradePoints = 1.0;
-                        calculateGPA();
+                        widget.course.selectedGradePoints = 1.0;
+                        ;
                         Navigator.pop(context);
                       });
                     },
