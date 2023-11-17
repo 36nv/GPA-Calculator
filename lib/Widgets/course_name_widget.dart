@@ -11,9 +11,11 @@ import 'package:gpa_calculator/extensions/screen_size.dart';
 
 class CourseNameWidget extends StatefulWidget {
   final Course course;
+  final Function onDelete;
   CourseNameWidget({
     Key? key,
     required this.course,
+    required this.onDelete,
   }) : super(key: key);
 
   @override
@@ -22,7 +24,6 @@ class CourseNameWidget extends StatefulWidget {
 
 class _CourseNameWidgetState extends State<CourseNameWidget> {
   String selectedOption = "A+";
-  // int contHoursCourse = 0;
 
   void decrementCounter() {
     setState(() {
@@ -52,83 +53,88 @@ class _CourseNameWidgetState extends State<CourseNameWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 18),
-      child: Container(
-        width: context.getWidth(),
-        height: context.getHeight() / 10,
-        decoration: BoxDecoration(
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(15),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            InkWell(
-              onTap: () {
-                openBottomSheet(context);
-              },
-              child: Container(
-                width: 50,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: MyColors.secondaryColor,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: Center(
-                  child: MyText(
-                    textIn: selectedOption,
-                    textSize: 20,
+    return GestureDetector(
+      onLongPress: () {
+        widget.onDelete();
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18),
+        child: Container(
+          width: context.getWidth(),
+          height: context.getHeight() / 10,
+          decoration: BoxDecoration(
+            color: Colors.grey[300],
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: () {
+                  bottomSheet(context);
+                },
+                child: Container(
+                  width: 50,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: MyColors.secondaryColor,
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Center(
+                    child: MyText(
+                      textIn: selectedOption,
+                      textSize: 20,
+                    ),
                   ),
                 ),
               ),
-            ),
-            Row(
-              children: [
-                IncandDecWidget(
-                  boxColorIncDec: MyColors.secondaryColor,
-                  boxColor: MyColors.primaryColor,
-                  boxIcon: Icons.remove,
-                  onPressed: decrementCounter,
-                ),
-                kHSpace12,
-                MyText(
-                  textIn: widget.course.contHoursCourse.toString(),
-                  textSize: 20,
-                ),
-                kHSpace12,
-                IncandDecWidget(
-                  boxColorIncDec: MyColors.secondaryColor,
-                  boxColor: MyColors.primaryColor,
-                  boxIcon: Icons.add,
-                  onPressed: incrementCounter,
-                ),
-              ],
-            ),
-            SizedBox(
-              width: 150,
-              child: TextField(
-                autofocus: true,
-                textDirection: TextDirection.rtl,
-                textAlign: TextAlign.right,
-                onChanged: (value) {
-                  ;
-                },
-                decoration: InputDecoration(
-                  labelText: 'ادخل الاسم',
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: MyColors.greyColor[300],
-                ),
+              Row(
+                children: [
+                  IncandDecWidget(
+                    boxColorIncDec: MyColors.secondaryColor,
+                    boxColor: MyColors.primaryColor,
+                    boxIcon: Icons.remove,
+                    onPressed: decrementCounter,
+                  ),
+                  kHSpace12,
+                  MyText(
+                    textIn: widget.course.contHoursCourse.toString(),
+                    textSize: 20,
+                  ),
+                  kHSpace12,
+                  IncandDecWidget(
+                    boxColorIncDec: MyColors.secondaryColor,
+                    boxColor: MyColors.primaryColor,
+                    boxIcon: Icons.add,
+                    onPressed: incrementCounter,
+                  ),
+                ],
               ),
-            )
-          ],
+              SizedBox(
+                width: 150,
+                child: TextField(
+                  autofocus: true,
+                  textDirection: TextDirection.rtl,
+                  textAlign: TextAlign.right,
+                  onChanged: (value) {
+                    ;
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'ادخل الاسم',
+                    border: InputBorder.none,
+                    filled: true,
+                    fillColor: MyColors.greyColor[300],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 
-  void openBottomSheet(BuildContext context) {
+  void bottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {

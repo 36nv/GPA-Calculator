@@ -18,11 +18,15 @@ class LetterGPAWidget extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        width: 50,
-        height: 50,
+        width: 100,
+        height: 100,
         decoration: BoxDecoration(
           color: MyColors.secondaryColor,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(50),
+          border: Border.all(
+            color: MyColors.blackColor,
+            width: 1,
+          ),
         ),
         child: Center(
           child: MyText(
