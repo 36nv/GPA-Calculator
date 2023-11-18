@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:gpa_calculator/Class/ads.dart';
 import 'package:gpa_calculator/Colors/my_colors.dart';
 import 'package:gpa_calculator/Screens/calculator_screen.dart';
 import 'package:gpa_calculator/Screens/contact_us.dart';
@@ -6,8 +8,47 @@ import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/navigation.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  BannerAd? bannerAd;
+  bool isLoaded = false;
+  void loadAd() {
+    bannerAd = BannerAd(
+      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          debugPrint('$ad loaded.');
+          setState(() {
+            isLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (ad, error) {
+          debugPrint('BannerAd failed to load: $error');
+          ad.dispose();
+        },
+      ),
+    )..load();
+  }
+
+  void initState() {
+    loadAd();
+    super.initState();
+  }
+
+  void dispose() {
+    if (isLoaded) {
+      bannerAd!.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +129,15 @@ class HomeScreen extends StatelessWidget {
               ),
               kHSpace12,
               InkWell(
-                onTap: () => CalculatorScreens().push(context),
+                onTap: () async {
+                  if (isLoaded) {
+                    await Ads().showAd();
+                    await Future.delayed(Duration(milliseconds: 1000));
+                    CalculatorScreens().push(context);
+                  } else {
+                    CalculatorScreens().push(context);
+                  }
+                },
                 child: Container(
                   height: 180,
                   width: 180,
@@ -108,7 +157,17 @@ class HomeScreen extends StatelessWidget {
               ),
               kHSpace12,
             ],
-          )
+          ),
+          kVSpace64,
+          Center(
+            child: isLoaded
+                ? SizedBox(
+                    width: bannerAd!.size.width.toDouble(),
+                    height: bannerAd!.size.height.toDouble(),
+                    child: AdWidget(ad: bannerAd!),
+                  )
+                : SizedBox(),
+          ),
         ],
       ),
     );
