@@ -5,7 +5,7 @@ class Ads {
   InterstitialAd? _interstitialAd;
   showAd() {
     InterstitialAd.load(
-        adUnitId: "ca-app-pub-5043552136508563/7918390608",
+        adUnitId: "ca-app-pub-5043552136508563/4992596943",
         request: const AdRequest(),
         adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
           _interstitialAd = ad;
