@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 
 class CurrentGPAWidget extends StatelessWidget {
   const CurrentGPAWidget({
-    super.key,
+    Key? key,
     required this.currentGpaController,
-  });
+  }) : super(key: key);
 
   final TextEditingController currentGpaController;
 
@@ -29,6 +29,14 @@ class CurrentGPAWidget extends StatelessWidget {
             focusedBorder: OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
+            suffixIcon: currentGpaController.text.isNotEmpty
+                ? IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () {
+                      currentGpaController.clear();
+                    },
+                  )
+                : null,
           ),
           onChanged: (text) {
             double value = double.tryParse(text) ?? 0.0;

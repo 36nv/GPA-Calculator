@@ -7,6 +7,7 @@ import 'package:gpa_calculator/Screens/contact_us.dart';
 import 'package:gpa_calculator/Widgets/my_text_widget.dart';
 import 'package:gpa_calculator/constants/navigation.dart';
 import 'package:gpa_calculator/constants/spacings.dart';
+import 'package:gpa_calculator/extensions/screen_size.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool isLoaded = false;
   void loadAd() {
     bannerAd = BannerAd(
-      adUnitId: "ca-app-pub-3940256099942544/6300978111",
+      adUnitId: "ca-app-pub-5043552136508563/2276710363",
       request: const AdRequest(),
       size: AdSize.banner,
       listener: BannerAdListener(
@@ -111,8 +112,8 @@ class _HomeScreenState extends State<HomeScreen> {
               InkWell(
                 onTap: () => ContactUs().push(context),
                 child: Container(
-                  height: 180,
-                  width: 180,
+                  height: context.getHeight() / 8,
+                  width: 150,
                   decoration: BoxDecoration(
                     color: MyColors.primaryColor,
                     borderRadius: BorderRadius.circular(100),
@@ -132,15 +133,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () async {
                   if (isLoaded) {
                     await Ads().showAd();
-                    await Future.delayed(Duration(milliseconds: 1000));
                     CalculatorScreens().push(context);
                   } else {
                     CalculatorScreens().push(context);
                   }
                 },
                 child: Container(
-                  height: 180,
-                  width: 180,
+                  height: context.getHeight() / 8,
+                  width: 150,
                   decoration: BoxDecoration(
                     color: MyColors.primaryColor,
                     borderRadius: BorderRadius.circular(100),

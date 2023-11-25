@@ -28,109 +28,117 @@ class _CalculatorScreensState extends State<CalculatorScreens> {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
+    return GestureDetector(
+      onTap: () {
+        // هنا يتم إخفاء لوحة المفاتيح عند النقر في أي مكان على الشاشة
         FocusScope.of(context).unfocus();
-        await Future.delayed(Duration(milliseconds: 200));
-        return true;
       },
-      child: Scaffold(
-        appBar: AppBar(
-          elevation: 0,
+      child: WillPopScope(
+        onWillPop: () async {
+          FocusScope.of(context).unfocus();
+          await Future.delayed(Duration(milliseconds: 200));
+          return true;
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Color(0xFF62D9D0),
+            actions: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 5),
+                child: IconButton(
+                  iconSize: 35.0,
+                  onPressed: () {
+                    newCourse();
+                    print('List ${courseList.length}');
+                  },
+                  icon: Icon(
+                    Icons.add,
+                  ),
+                ),
+              ),
+            ],
+          ),
           backgroundColor: Color(0xFF62D9D0),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5),
-              child: IconButton(
-                iconSize: 35.0,
-                onPressed: () {
-                  newCourse();
-                  print('List ${courseList.length}');
-                },
-                icon: Icon(
-                  Icons.add,
-                ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              MyText(
+                textIn: "احسب معدلك",
+                textSize: 30,
+                isBold: true,
               ),
-            ),
-          ],
-        ),
-        backgroundColor: Color(0xFF62D9D0),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            MyText(
-              textIn: "احسب معدلك",
-              textSize: 30,
-              isBold: true,
-            ),
-            kVSpace12,
-            Expanded(
-              child: Container(
-                width: context.getWidth(),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(40),
-                    topLeft: Radius.circular(40),
+              kVSpace12,
+              Expanded(
+                child: Container(
+                  width: context.getWidth(),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(40),
+                      topLeft: Radius.circular(40),
+                    ),
                   ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: ListView(children: [
-                          ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: courseList.length,
-                            itemBuilder: (context, index) {
-                              return Column(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 20),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: ListView(children: [
+                            ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: courseList.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    CourseNameWidget(
+                                      course: courseList[index],
+                                      onDelete: () {
+                                        setState(() {
+                                          courseList.removeAt(index);
+                                        });
+                                      },
+                                    ),
+                                    kVSpace8,
+                                  ],
+                                );
+                              },
+                            ),
+                          ]),
+                        ),
+                        Row(
+                          children: [
+                            InkWellWedget(
+                                previousHoursController:
+                                    previousHoursController,
+                                currentGpaController: currentGpaController),
+                            Container(
+                              width: context.getWidth() / 2,
+                              decoration: BoxDecoration(
+                                color: MyColors.secondaryColor,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  CourseNameWidget(
-                                    course: courseList[index],
-                                    onDelete: () {
-                                      setState(() {
-                                        courseList.removeAt(index);
-                                      });
-                                    },
-                                  ),
-                                  kVSpace8,
+                                  PreviousHoursWidget(
+                                      previousHoursController:
+                                          previousHoursController),
+                                  CurrentGPAWidget(
+                                      currentGpaController:
+                                          currentGpaController),
                                 ],
-                              );
-                            },
-                          ),
-                        ]),
-                      ),
-                      Row(
-                        children: [
-                          InkWellWedget(
-                              previousHoursController: previousHoursController,
-                              currentGpaController: currentGpaController),
-                          Container(
-                            width: context.getWidth() / 2,
-                            decoration: BoxDecoration(
-                              color: MyColors.secondaryColor,
+                              ),
                             ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                PreviousHoursWidget(
-                                    previousHoursController:
-                                        previousHoursController),
-                                CurrentGPAWidget(
-                                    currentGpaController: currentGpaController),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
