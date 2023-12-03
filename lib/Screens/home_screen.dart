@@ -161,13 +161,15 @@ class _HomeScreenState extends State<HomeScreen> {
           kVSpace64,
           Center(
             child: isLoaded
-                ? SizedBox(
-                    width: bannerAd!.size.width.toDouble(),
-                    height: bannerAd!.size.height.toDouble(),
-                    child: AdWidget(ad: bannerAd!),
+                ? Expanded(
+                    child: SizedBox(
+                      width: bannerAd!.size.width.toDouble(),
+                      height: bannerAd!.size.height.toDouble(),
+                      child: AdWidget(ad: bannerAd!),
+                    ),
                   )
                 : SizedBox(),
-          ),
+          )
         ],
       ),
     );
